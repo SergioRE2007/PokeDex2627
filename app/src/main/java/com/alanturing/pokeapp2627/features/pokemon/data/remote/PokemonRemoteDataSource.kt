@@ -10,24 +10,23 @@ class PokemonRemoteDataSource
     override suspend fun readAllPokemon(): List<Pokemon> {
         val response = _api.readAllPokemon()
         val pokemons = mutableListOf<Pokemon>()
-        if (response.isSuccessful) {
-            // TODO PARSEAR EL CUERPO A EL MODEL Pokemon
-            val body = response.body()!!
+        val body = response.body()
+        if (response.isSuccessful && body != null) {
+            // La lista solo trae el nombre, así que pedimos el detalle de cada uno
             for(item in body.results) {
                 val pokemon = readPokemonByName(item.name)
-                pokemons.add(pokemon!!)
+                if (pokemon != null) {
+                    pokemons.add(pokemon)
+                }
             }
-        }
-        else {
-            // Mostrar un errror!
         }
         return pokemons
     }
 
     override suspend fun readPokemonByName(name: String): Pokemon? {
         val response = _api.readPokemonByName(name)
-        if (response.isSuccessful) {
-            val body = response.body()!!
+        val body = response.body()
+        if (response.isSuccessful && body != null) {
             return body.toModel()
         }
         else{
@@ -35,8 +34,15 @@ class PokemonRemoteDataSource
         }
     }
 
-    override suspend fun readPokemonById(id: Int): Pokemon {
-        TODO("Not yet implemented")
+    override suspend fun readPokemonById(id: Int): Pokemon? {
+        val response = _api.readPokemonById(id)
+        val body = response.body()
+        if (response.isSuccessful && body != null) {
+            return body.toModel()
+        }
+        else{
+            return null
+        }
     }
 
 }

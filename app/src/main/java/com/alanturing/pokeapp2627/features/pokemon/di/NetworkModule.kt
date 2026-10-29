@@ -17,7 +17,7 @@ class NetworkModule {
     @Singleton
     fun provideHttpClient(): PokeApi {
         val retrofit:Retrofit = Retrofit.Builder()
-            .baseUrl("https://pokeapi.co/api/v2")
+            .baseUrl("https://pokeapi.co/api/v2/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         return retrofit.create(PokeApi::class.java)

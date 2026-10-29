@@ -6,11 +6,11 @@ import retrofit2.Response
 
 interface PokeApi {
 
-    @GET("/pokemon")
+    @GET("pokemon")
     suspend fun readAllPokemon(): Response<PokemonListResult>
-    @GET("/pokemon/{name}")
+    @GET("pokemon/{name}")
     suspend fun readPokemonByName(@Path("name") name:String): Response<PokemonResult>
-    @GET("/pokemon/{id}")
+    @GET("pokemon/{id}")
     suspend fun readPokemonById(@Path("id") id:Int): Response<PokemonResult>
 }
 
